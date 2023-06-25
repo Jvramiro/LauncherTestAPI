@@ -8,9 +8,11 @@ namespace LauncherTestAPI.Controllers {
     public class LauncherController : ControllerBase {
 
         private readonly LauncherContext _context;
+        private readonly HttpClient _httpClient;
         private const int pagingSize = 10;
-        public LauncherController(LauncherContext context) {
+        public LauncherController(LauncherContext context, HttpClient httpClient) {
             _context = context;
+            _httpClient = httpClient;
         }
 
         [HttpGet]
@@ -19,7 +21,8 @@ namespace LauncherTestAPI.Controllers {
         }
 
         [HttpGet("launchers")]
-        public IActionResult GetLaunchers([FromQuery] int page) {
+        public IActionResult GetLaunchers([FromQuery] int page = 1) {
+
             int correctPage = page - 1;
             var launchers = _context.GetAllLaunchers().Skip(correctPage*pagingSize).Take(pagingSize).ToList();
 
@@ -31,7 +34,7 @@ namespace LauncherTestAPI.Controllers {
         }
 
         [HttpGet("{launchId}")]
-        public IActionResult GetLauncher(Guid launchId) {
+        public IActionResult GetLauncher(int launchId) {
             
             var launcher = _context.GetLauncherById(launchId);
 
@@ -44,7 +47,7 @@ namespace LauncherTestAPI.Controllers {
         }
 
         [HttpPut("{launchId}")]
-        public IActionResult UpdateLauncher(Guid launchId, [FromBody] Launcher updatedLauncher) {
+        public IActionResult UpdateLauncher(int launchId, [FromBody] Launcher updatedLauncher) {
             var launcher = _context.GetLauncherById(launchId);
 
             if (launcher == null) {
@@ -62,7 +65,7 @@ namespace LauncherTestAPI.Controllers {
         }
 
         [HttpDelete("{launchId}")]
-        public IActionResult DeleteLauncher(Guid launchId) {
+        public IActionResult DeleteLauncher(int launchId) {
             var launcher = _context.GetLauncherById(launchId);
 
             if (launcher == null) {

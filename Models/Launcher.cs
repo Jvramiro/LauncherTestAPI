@@ -3,12 +3,12 @@ using System.Reflection;
 
 namespace LauncherTestAPI.Models {
     public class Launcher {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Url { get; set; }
         public int LaunchLibraryId { get; set; }
         public string Slug { get; set; }
         public string Name { get; set; }
-        public LaunchStatus Status { get; set; }
+        public string Status { get; set; }
         public DateTime Net { get; set; }
         public DateTime WindowEnd { get; set; }
         public DateTime WindowStart { get; set; }

@@ -2,8 +2,8 @@ using LauncherTestAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//Temporary Context
 builder.Services.AddSingleton<LauncherContext>();
+builder.Services.AddHttpClient();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
