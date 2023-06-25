@@ -1,7 +1,6 @@
 ﻿namespace LauncherTestAPI.Models {
-    public class RocketConfiguration {
+    public class LauncherConfig {
         public int Id { get; set; }
-        public int LaunchLibraryId { get; set; }
         public string Url { get; set; }
         public string Name { get; set; }
         public string Family { get; set; }

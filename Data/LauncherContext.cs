@@ -30,7 +30,7 @@ namespace LauncherTestAPI.Data {
         public void UpdateLauncher(Launcher request) {
             var launcher = _launchers.FirstOrDefault(l => l.Id == request.Id);
             if (launcher != null) {
-                launcher.Name = request.Name;
+                launcher = request;
             }
         }
 
