@@ -1,4 +1,5 @@
-﻿using LauncherTestAPI.Models;
+﻿using LauncherTestAPI.Data;
+using LauncherTestAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LauncherTestAPI.Controllers {
@@ -6,9 +7,10 @@ namespace LauncherTestAPI.Controllers {
     [Route("[controller]")]
     public class LauncherController : ControllerBase {
 
-        private readonly HttpClient _httpClient;
-        public LauncherController(IHttpClientFactory httpClientFactory) {
-            _httpClient = httpClientFactory.CreateClient();
+        private readonly LauncherContext _context;
+        private const int pagingSize = 10;
+        public LauncherController(LauncherContext context) {
+            _context = context;
         }
 
         [HttpGet]
@@ -18,23 +20,57 @@ namespace LauncherTestAPI.Controllers {
 
         [HttpGet("launchers")]
         public IActionResult GetLaunchers([FromQuery] int page) {
-            List<Launcher> launchers = new List<Launcher>();
+            int correctPage = page - 1;
+            var launchers = _context.GetAllLaunchers().Skip(correctPage*pagingSize).Take(pagingSize).ToList();
+
+            if(launchers == null || launchers.Count == 0) {
+                return NotFound("Available users not found");
+            }
+
             return Ok(launchers);
         }
 
         [HttpGet("{launchId}")]
         public IActionResult GetLauncher(Guid launchId) {
-            return Ok(new Launcher());
+            
+            var launcher = _context.GetLauncherById(launchId);
+
+            if(launcher == null) {
+                return NotFound($"Id {launchId} not found");
+            }
+
+            return Ok(launcher);
+
         }
 
         [HttpPut("{launchId}")]
         public IActionResult UpdateLauncher(Guid launchId, [FromBody] Launcher updatedLauncher) {
-            return Ok();
+            var launcher = _context.GetLauncherById(launchId);
+
+            if (launcher == null) {
+                return NotFound($"Id {launchId} not found");
+            }
+
+            if(!ModelState.IsValid) {
+                return BadRequest("Incorrect or Invalid Body request");
+            }
+
+            _context.UpdateLauncher(launcher);
+
+            return Ok($"Launcher with Id {launchId} updated successfull");
+
         }
 
         [HttpDelete("{launchId}")]
         public IActionResult DeleteLauncher(Guid launchId) {
-            return Ok();
+            var launcher = _context.GetLauncherById(launchId);
+
+            if (launcher == null) {
+                return NotFound($"Id {launchId} not found");
+            }
+
+            _context.DeleteLauncher(launchId);
+            return Ok($"Launcher with Id {launchId} removed successfully");
         }
 
     }
