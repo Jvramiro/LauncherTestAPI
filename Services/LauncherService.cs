@@ -17,6 +17,7 @@ namespace LauncherTestAPI.Services {
                 var content = await response.Content.ReadAsStringAsync();
                 var results = JObject.Parse(content)["results"];
                 var launchers = JsonConvert.DeserializeObject<List<Launcher>>(results.ToString());
+                launchers.ForEach(launcher => launcher.imported_t = DateTime.Now);
 
                 data.AddRange(launchers);
             }

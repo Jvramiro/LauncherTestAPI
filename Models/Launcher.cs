@@ -1,4 +1,5 @@
-﻿using LauncherTestAPI.Services;
+﻿using LauncherTestAPI.Enums;
+using LauncherTestAPI.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel;
@@ -18,7 +19,9 @@ namespace LauncherTestAPI.Models {
 
         [JsonProperty("is_placeholder")]
         public bool IsPlaceholder { get; set; }
-        public string Status { get; set; }
+
+        [JsonProperty("status")]
+        public string LauncherStatus { get; set; }
         public string Details { get; set; }
 
         [JsonProperty("launcher_config")]
@@ -35,5 +38,11 @@ namespace LauncherTestAPI.Models {
         [JsonProperty("first_launch_date")]
         [JsonConverter(typeof(CustomDateTimeConverter))]
         public DateTime FirstLaunchDate { get; set; }
+
+        [JsonIgnore]
+        public DateTime imported_t { get; set; }
+
+        [JsonIgnore]
+        public Status status { get; set; }
     }
 }
