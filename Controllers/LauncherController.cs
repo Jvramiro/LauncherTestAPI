@@ -21,7 +21,7 @@ namespace LauncherTestAPI.Controllers {
         }
 
         [HttpGet("launchers")]
-        public IActionResult GetLaunchers([FromQuery] int page = 1) {
+        public IActionResult GetLaunchers([FromQuery] int page) {
 
             int correctPage = page - 1;
             var launchers = _context.GetAllLaunchers().Skip(correctPage*pagingSize).Take(pagingSize).ToList();

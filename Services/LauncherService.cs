@@ -11,7 +11,6 @@ namespace LauncherTestAPI.Services {
 
             var httpClient = new HttpClient();
 
-            // Fazer a chamada à API
             var response = await httpClient.GetAsync(apiUrl);
 
             if (response.IsSuccessStatusCode) {
