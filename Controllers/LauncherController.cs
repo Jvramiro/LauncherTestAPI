@@ -23,6 +23,10 @@ namespace LauncherTestAPI.Controllers {
         [HttpGet("launchers")]
         public IActionResult GetLaunchers([FromQuery] int page) {
 
+            if(page <= 0) {
+                return BadRequest("Invalid page value");
+            }
+
             int correctPage = page - 1;
             var launchers = _context.GetAllLaunchers().Skip(correctPage*pagingSize).Take(pagingSize).ToList();
 

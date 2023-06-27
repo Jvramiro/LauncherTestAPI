@@ -28,4 +28,5 @@ As nomenclaturas utilizadas são as mesmas utilizadas para quando utilizado algu
 ## Unit Test
 
 Foi criado um teste unitário para testar as principais funções que são requisitadas pelos endpoints dos controladores.
-O Unit Test programado pode ser encontrado em -.
+Os testes criados contém as possibilidades de entrada e as possibilidades de resultados de saída nas interações com a API.
+O Unit Test programado para os endpoints da API pode ser encontrado em Tests/LauncherControllerTests.cs.
